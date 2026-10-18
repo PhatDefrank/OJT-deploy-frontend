@@ -1,0 +1,1029 @@
+/* =========================================================
+   XXIV PARKING - "MINIMAL YET WARM" THEME
+   Palette: #EAE7DC sand, #D8C3A5 tan, #8E8D8A stone,
+            #E98074 salmon, #E85A4F coral (tokens in index.css)
+========================================================= */
+
+/* Main Container */
+.pms-app {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  background: radial-gradient(circle at 50% 0%, #F1EEE6 0%, var(--palette-sand) 60%);
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+/* Ambient glows — radial-gradient instead of blur() (blur 120px is a GPU tax) */
+.cyber-glow {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  contain: strict;
+}
+.cyber-glow--cyan-top {
+  top: -150px;
+  right: 15%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(233, 128, 116, 0.14) 0%, rgba(233, 128, 116, 0.04) 40%, transparent 70%);
+}
+.cyber-glow--blue-bottom {
+  bottom: -150px;
+  left: 10%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(216, 195, 165, 0.35) 0%, rgba(216, 195, 165, 0.1) 42%, transparent 70%);
+}
+
+/* =========================================================
+   GLOBAL HEADER & CONTROLS
+========================================================= */
+.global-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 2rem;
+  background: rgba(250, 248, 243, 0.94);
+  border-bottom: 1px solid rgba(232, 90, 79, 0.15);
+}
+
+.global-header__left {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.brand-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(232, 90, 79, 0.08);
+  border: 1px solid rgba(232, 90, 79, 0.25);
+  padding: 6px 14px;
+  border-radius: 20px;
+}
+
+.brand-logo {
+  height: 20px;
+  width: auto;
+}
+
+.brand-text {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #3B3632;
+}
+
+.screen-nav-tabs {
+  display: flex;
+  background: rgba(250, 248, 243, 0.6);
+  border: 1px solid rgba(59, 54, 50, 0.08);
+  border-radius: 10px;
+  padding: 3px;
+  gap: 4px;
+}
+
+.nav-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.nav-btn:hover {
+  color: var(--text-strong);
+  background: rgba(59, 54, 50, 0.05);
+}
+
+.nav-btn--active {
+  color: #FFFFFF;
+  background: var(--color-primary);
+  box-shadow: 0 0 12px rgba(232, 90, 79, 0.4);
+}
+
+.global-header__right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* =========================================================
+   XXIV PARKING LOGO
+========================================================= */
+.parking-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  user-select: none;
+}
+
+.parking-logo__icon-box {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.parking-logo__img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(59, 54, 50, 0.25));
+}
+
+.parking-logo__text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+
+.parking-logo__brand {
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: #3B3632;
+  white-space: nowrap;
+}
+
+.parking-logo__sub {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.25em;
+  color: var(--color-primary);
+}
+
+.parking-logo--large .parking-logo__icon-box {
+  width: 48px;
+  height: 48px;
+}
+.parking-logo--large .parking-logo__brand {
+  font-size: 1.05rem;
+}
+.parking-logo--large .parking-logo__sub {
+  font-size: 0.82rem;
+}
+
+/* =========================================================
+   AUTH SPLIT LAYOUT (Login / Email code / Register / Activate)
+   Fills the window. Left: brand panel over the Lamborghini photo. Right: form.
+========================================================= */
+.pms-main-viewport.pms-main-viewport--full {
+  padding: 0;
+  min-height: 100vh;
+  align-items: stretch;
+}
+
+.screens-auth-layout {
+  position: relative;
+  z-index: 5;
+  width: 100%;
+  animation: fadeIn 0.25s ease;
+}
+
+.auth-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  min-height: 100vh;
+  background: var(--bg-surface);
+}
+
+/* Replaces the header on the sign-in screens */
+.auth-floating-badge {
+  position: fixed;
+  top: 1rem;
+  right: 1.25rem;
+  z-index: 50;
+}
+
+.auth-split__brand {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  padding: clamp(2.5rem, 5vw, 4.5rem);
+  color: #FFFFFF;
+  isolation: isolate;
+}
+
+.auth-split__photo {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background-size: cover;
+  background-position: 62% center;
+  /* Warm the dark photo so it sits naturally on the sand palette */
+  filter: sepia(0.35) saturate(0.85) brightness(1.08) contrast(0.95);
+}
+
+.auth-split__tint {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(180deg, rgba(216, 195, 165, 0.18) 0%, rgba(142, 141, 138, 0.25) 45%, rgba(59, 54, 50, 0.82) 100%),
+    linear-gradient(120deg, rgba(232, 90, 79, 0.38) 0%, rgba(233, 128, 116, 0.12) 45%, transparent 75%);
+}
+
+.auth-split__brand-content {
+  max-width: 480px;
+}
+
+/* Logo to the left of the product name */
+.auth-split__brand-row {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+}
+
+.auth-split__logo {
+  display: block;
+  flex-shrink: 0;
+  height: clamp(84px, 9vw, 120px);
+  width: auto;
+  filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.35));
+}
+
+.auth-split__title {
+  font-size: clamp(1.9rem, 3.2vw, 2.8rem);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  color: #FFFFFF;
+  text-shadow: 0 2px 18px rgba(59, 54, 50, 0.35);
+}
+
+.auth-split__title-accent {
+  display: block;
+  color: var(--palette-tan);
+}
+
+.auth-split__tagline {
+  margin-top: 0.85rem;
+  font-size: 0.98rem;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.auth-split__features {
+  margin-top: 1.25rem;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.auth-split__features li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.auth-split__features li::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--palette-salmon);
+  box-shadow: 0 0 0 3px rgba(233, 128, 116, 0.3);
+}
+
+.auth-split__panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem 2rem;
+  background: var(--bg-surface);
+}
+
+.auth-split__panel-inner {
+  width: 100%;
+  max-width: 400px;
+}
+
+.auth-split__heading {
+  margin-bottom: 1.25rem;
+}
+
+.auth-split__heading-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--text-strong);
+}
+
+.auth-split__heading-subtitle {
+  margin-top: 0.35rem;
+  font-size: 0.92rem;
+  color: var(--text-muted);
+}
+
+/* The form card blends into the panel instead of floating on a photo */
+.auth-split .glass-card {
+  padding: 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+@media (max-width: 860px) {
+  .auth-split {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+  }
+
+  .auth-split__brand {
+    min-height: 220px;
+    padding: 4.5rem 1.5rem 1.5rem;
+  }
+
+  .auth-split__logo {
+    height: 72px;
+  }
+
+  .auth-split__features {
+    display: none;
+  }
+
+  .auth-split__panel {
+    padding: 1.75rem 1.25rem 2rem;
+  }
+}
+
+/* =========================================================
+   MAIN VIEWPORT
+========================================================= */
+.pms-main-viewport {
+  position: relative;
+  z-index: 10;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.25rem 1rem 2rem;
+  min-height: calc(100vh - 65px);
+}
+
+/* =========================================================
+   GLASS CARDS (Login & Register)
+========================================================= */
+.glass-card {
+  width: 100%;
+  background: rgba(250, 248, 243, 0.88);
+  border-radius: 14px;
+  padding: 1.2rem 1.35rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.login-glass-card {
+  border: 1px solid rgba(59, 54, 50, 0.1);
+  box-shadow: 0 10px 30px rgba(92, 72, 56, 0.16);
+}
+
+/* Form controls */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.form-group {
+  width: 100%;
+}
+
+.cyber-input {
+  width: 100%;
+  background: rgba(250, 248, 243, 0.85);
+  border: 1px solid rgba(59, 54, 50, 0.12);
+  border-radius: 8px;
+  padding: 0.65rem 0.85rem;
+  color: #3B3632;
+  font-size: 0.86rem;
+  transition: var(--transition-fast);
+}
+
+.cyber-input::placeholder {
+  color: #8E8D8A;
+}
+
+.cyber-input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 10px rgba(232, 90, 79, 0.3);
+  background: rgba(250, 248, 243, 0.95);
+}
+
+/* Checkbox & Row */
+.auth-form-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+}
+
+.cyber-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #57524C;
+  cursor: pointer;
+  user-select: none;
+}
+
+.cyber-checkbox {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background: rgba(250, 248, 243, 0.9);
+  border: 1px solid rgba(59, 54, 50, 0.2);
+  border-radius: 4px;
+  cursor: pointer;
+  display: grid;
+  place-content: center;
+  transition: var(--transition-fast);
+}
+
+.cyber-checkbox:checked {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 6px var(--color-primary);
+}
+
+.cyber-checkbox:checked::before {
+  content: "✔";
+  font-size: 10px;
+  color: #FFFFFF;
+  font-weight: 900;
+}
+
+.auth-link-btn {
+  background: transparent;
+  border: none;
+  color: var(--color-primary);
+  font-size: 0.85rem;
+  cursor: pointer;
+  text-decoration: none;
+  padding: 0;
+}
+
+.auth-link-btn:hover {
+  text-decoration: underline;
+}
+
+/* Primary Cyan Gradient Button */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: var(--transition-fast);
+}
+
+.btn-primary-cyan {
+  background: linear-gradient(135deg, #E85A4F 0%, #E98074 100%);
+  color: #FFFFFF;
+  border: none;
+  padding: 0.72rem 1.25rem;
+  font-size: 0.9rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(232, 90, 79, 0.35);
+}
+
+.btn-primary-cyan:hover:not(:disabled) {
+  box-shadow: 0 6px 20px rgba(232, 90, 79, 0.45);
+  transform: translateY(-1px);
+}
+
+.btn-primary-cyan:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-outline-cyan {
+  background: transparent;
+  border: 1px solid var(--color-primary);
+  color: var(--color-primary);
+  padding: 0.65rem 1.15rem;
+  font-size: 0.85rem;
+  border-radius: 8px;
+}
+
+.btn-outline-cyan:hover {
+  background: rgba(232, 90, 79, 0.1);
+}
+
+.btn-danger-sm {
+  background: rgba(184, 67, 58, 0.15);
+  border: 1px solid rgba(184, 67, 58, 0.4);
+  color: #9E3D35;
+  padding: 5px 12px;
+  font-size: 0.8rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn-danger-sm:hover {
+  background: #B8433A;
+  color: var(--on-primary);
+}
+
+.btn-full {
+  width: 100%;
+}
+
+.btn-sm {
+  padding: 6px 12px;
+  font-size: 0.8rem;
+}
+
+/* SSO Section */
+.sso-section {
+  margin-top: 0.85rem;
+}
+
+.sso-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #8E8D8A;
+  font-size: 0.72rem;
+  margin-bottom: 0.65rem;
+}
+
+.sso-divider::before,
+.sso-divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid rgba(59, 54, 50, 0.1);
+}
+
+.sso-divider span {
+  padding: 0 10px;
+}
+
+/* Google draws its own button in an iframe; this only centres it in the form column */
+.google-signin {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.35rem;
+}
+
+.google-signin__button {
+  display: flex;
+  justify-content: center;
+  min-height: 44px;
+}
+
+.google-signin__status {
+  font-size: 0.78rem;
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.google-signin__status--error {
+  color: #B8433A;
+}
+
+/* Footer card navigation */
+.auth-card-footer {
+  margin-top: 0.85rem;
+  text-align: center;
+  font-size: 0.8rem;
+  color: #6F6A64;
+}
+
+.auth-link-highlight {
+  background: transparent;
+  border: none;
+  color: var(--color-primary);
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+}
+
+/* Alerts */
+.auth-alert {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+  animation: fadeIn 0.2s ease;
+}
+
+.auth-alert--error {
+  background: rgba(184, 67, 58, 0.15);
+  border: 1px solid rgba(184, 67, 58, 0.4);
+  color: #9E3D35;
+}
+
+.auth-alert--info {
+  background: rgba(232, 90, 79, 0.12);
+  border: 1px solid rgba(232, 90, 79, 0.3);
+  color: #9E3D35;
+}
+
+/* =========================================================
+   EMAIL CODE (OTP) SIGN-IN
+========================================================= */
+.otp-heading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 0.95rem;
+}
+
+.otp-heading__icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: var(--color-primary);
+  background: rgba(232, 90, 79, 0.1);
+  border: 1px solid rgba(232, 90, 79, 0.35);
+  box-shadow: 0 0 14px rgba(232, 90, 79, 0.25);
+  margin-bottom: 0.6rem;
+}
+
+.otp-heading__title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #3B3632;
+}
+
+.otp-heading__subtitle {
+  margin-top: 0.3rem;
+  font-size: 0.82rem;
+  color: #6F6A64;
+  overflow-wrap: anywhere;
+}
+
+.otp-heading__subtitle strong {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.otp-code-inputs {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.otp-digit {
+  width: 100%;
+  aspect-ratio: 1 / 1.15;
+  max-height: 56px;
+  text-align: center;
+  font-size: 1.35rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: #3B3632;
+  background: rgba(250, 248, 243, 0.85);
+  border: 1px solid rgba(59, 54, 50, 0.12);
+  border-radius: 8px;
+  caret-color: var(--color-primary);
+  transition: var(--transition-fast);
+}
+
+.otp-digit:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 10px rgba(232, 90, 79, 0.3);
+  background: rgba(250, 248, 243, 0.95);
+}
+
+.otp-digit--filled {
+  border-color: rgba(232, 90, 79, 0.45);
+  color: var(--color-primary);
+}
+
+.otp-digit:read-only {
+  opacity: 0.6;
+}
+
+.otp-resend {
+  text-align: center;
+  font-size: 0.8rem;
+  color: #6F6A64;
+}
+
+.otp-resend strong {
+  color: var(--text-body);
+  font-variant-numeric: tabular-nums;
+}
+
+.otp-resend .auth-link-btn {
+  font-size: 0.8rem;
+}
+
+.otp-resend .auth-link-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.auth-card-footer--tight {
+  margin-top: 0;
+}
+
+/* =========================================================
+   MODALS & OVERLAYS (Api Status, Checkout, Vehicles, etc.)
+========================================================= */
+.api-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(59, 54, 50, 0.42);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 1rem;
+  animation: fadeIn 0.2s ease;
+}
+
+.api-modal {
+  width: 100%;
+  max-width: 480px;
+  background: #F4F1EA;
+  border: 1px solid rgba(232, 90, 79, 0.3);
+  border-radius: 18px;
+  box-shadow: 0 25px 60px rgba(92, 72, 56, 0.36);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.api-modal__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid rgba(59, 54, 50, 0.08);
+}
+
+.api-modal__header h3 {
+  font-size: 1.1rem;
+  color: #3B3632;
+  font-weight: 700;
+}
+
+.api-modal__close {
+  background: transparent;
+  border: none;
+  color: #6F6A64;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.api-modal__close:hover {
+  color: #3B3632;
+}
+
+.api-modal__body {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.api-modal__footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 1rem 1.5rem;
+  background: rgba(250, 248, 243, 0.6);
+  border-top: 1px solid rgba(59, 54, 50, 0.08);
+}
+
+.api-modal__status-box {
+  background: rgba(59, 54, 50, 0.04);
+  padding: 1rem;
+  border-radius: 10px;
+  border: 1px solid rgba(59, 54, 50, 0.08);
+}
+
+.status-pill {
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+  display: inline-block;
+  margin-bottom: 6px;
+}
+.status-pill--success { background: rgba(79, 138, 91, 0.2); color: #4F8A5B; }
+.status-pill--warning { background: rgba(194, 138, 44, 0.2); color: #C28A2C; }
+
+.api-modal__status-msg {
+  font-size: 0.85rem;
+  color: #6F6A64;
+}
+
+.api-modal__form-group label {
+  font-size: 0.85rem;
+  color: #57524C;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.api-modal__input-row {
+  display: flex;
+  gap: 8px;
+}
+
+.api-modal__input {
+  flex: 1;
+  background: rgba(250, 248, 243, 0.9);
+  border: 1px solid rgba(59, 54, 50, 0.15);
+  border-radius: 8px;
+  padding: 8px 12px;
+  color: #3B3632;
+  font-size: 0.85rem;
+}
+
+.api-modal__presets-label {
+  font-size: 0.75rem;
+  color: #6F6A64;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.api-modal__presets-buttons {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.preset-btn {
+  background: rgba(59, 54, 50, 0.05);
+  border: 1px solid rgba(59, 54, 50, 0.12);
+  color: #57524C;
+  font-size: 0.75rem;
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.preset-btn:hover {
+  background: rgba(232, 90, 79, 0.15);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.api-modal__tip {
+  font-size: 0.8rem;
+  color: #6F6A64;
+  background: rgba(232, 90, 79, 0.05);
+  border-left: 3px solid var(--color-primary);
+  padding: 8px 12px;
+  border-radius: 0 8px 8px 0;
+}
+
+/* Status Badge Top Right */
+.api-status-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(250, 248, 243, 0.8);
+  border: 1px solid rgba(59, 54, 50, 0.12);
+  padding: 5px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.api-status-badge:hover {
+  background: rgba(232, 90, 79, 0.1);
+  border-color: var(--color-primary);
+}
+
+.api-status-badge__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.api-status-badge--online .api-status-badge__dot {
+  background: #4F8A5B;
+  box-shadow: 0 0 8px #4F8A5B;
+}
+
+.api-status-badge--offline .api-status-badge__dot {
+  background: #C28A2C;
+  box-shadow: 0 0 8px #C28A2C;
+}
+
+.api-status-badge__text {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #57524C;
+}
+
+/* Toast */
+.pms-toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: #F4F1EA;
+  border: 1px solid var(--color-primary);
+  box-shadow: 0 10px 30px rgba(92, 72, 56, 0.32), 0 0 20px rgba(232, 90, 79, 0.2);
+  border-radius: 12px;
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 300;
+  animation: slideUp 0.25s ease;
+}
+
+.pms-toast__icon {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 0.8rem;
+}
+
+.pms-toast__text {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #3B3632;
+}
+
+.pms-toast__close {
+  background: transparent;
+  border: none;
+  color: #6F6A64;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+/* Checkout Summary inside Pay modal */
+
+.payment-methods {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* =========================================================
+   RESPONSIVE DESIGN
+========================================================= */
+
+@media (max-width: 640px) {
+  /* The brand already sits in the global header; keep only the badge so the top bar fits */
+  .global-header {
+    flex-direction: column;
+    gap: 12px;
+    padding: 0.75rem 1rem;
+  }
+}
+
+/* =========================================================
+   VEHICLE CRUD & PROFILE / PASSWORD ENHANCEMENTS
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
